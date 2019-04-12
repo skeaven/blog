@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>Simple example - Editor.md examples</title>
-    <link rel="stylesheet" href="/blog/components/editor/examples/css/style.css"/>
-    <link rel="stylesheet" href="/blog/components/editor/css/editormd.css"/>
+    <link rel="stylesheet" href="/components/editor/examples/css/style.css"/>
+    <link rel="stylesheet" href="/components/editor/css/editormd.css"/>
     <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon"/>
 </head>
 <body>
@@ -48,8 +48,10 @@
         </textarea>
     </div>
 </div>
-<script src="/blog/components/editor/examples/js/jquery.min.js"></script>
-<script src="/blog/components/editor/editormd.min.js"></script>
+<button id="submitBtn">提交</button>
+
+<script src="/components/editor/examples/js/jquery.min.js"></script>
+<script src="/components/editor/editormd.min.js"></script>
 <script type="text/javascript">
     var testEditor;
 
@@ -58,7 +60,8 @@
             width: "90%",
             height: 640,
             syncScrolling: "single",
-            path: "/blog/components/editor/lib/"
+            path: "/components/editor/lib/",
+            saveHTMLToTextarea: true
         });
 
         /*
@@ -70,6 +73,23 @@
             path    : "../lib/"
         });
         */
+        $("#submitBtn").click(function () {
+            alert("正在提交...");
+            var article = {};
+            article.markdown = testEditor.getMarkdown();
+            article.html = testEditor.getHTML();
+
+            $.ajax({
+                type: 'POST',
+                url: "/article",
+                data: JSON.stringify(article),
+                dataType: "json",
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    alert("提交完成!");
+                }
+            });
+        });
     });
 </script>
 </body>

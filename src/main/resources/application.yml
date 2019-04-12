@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /blog
+    context-path: /
 
 #公共配置与profiles选择无关
 mybatis:
