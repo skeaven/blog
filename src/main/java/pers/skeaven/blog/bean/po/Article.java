@@ -7,6 +7,10 @@ import lombok.ToString;
 @ToString
 public class Article {
     private String articleId;
-    private String markdown;
-    private String html;
+    private String title;
+    private String label;
+    private long createTime;
+    private long updateTime;
+    private String author;
+    private String preview;
 }
