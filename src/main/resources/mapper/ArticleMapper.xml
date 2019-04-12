@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="pers.skeaven.blog.dao.ArticleDao">
+    <resultMap id="articleResultMap" type="pers.skeaven.blog.bean.po.Article">
+        <id column="article_id" property="articleId" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="label" property="label" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="preview" property="preview" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <parameterMap id="articleParameterMap" type="pers.skeaven.blog.bean.po.Article">
+        <parameter property="articleId" resultMap="articleResultMap"/>
+        <parameter property="title" resultMap="articleResultMap"/>
+        <parameter property="label" resultMap="articleResultMap"/>
+        <parameter property="createTime" resultMap="articleResultMap"/>
+        <parameter property="updateTime" resultMap="articleResultMap"/>
+        <parameter property="author" resultMap="articleResultMap"/>
+        <parameter property="preview" resultMap="articleResultMap"/>
+    </parameterMap>
+
+    <sql id="article_columns">
+        article_id, title, label, create_time, update_time, author, preview
+    </sql>
+
+    <insert id="insertArticle" parameterMap="articleParameterMap">
+        INSERT INTO blog.article (
+        <include refid="article_columns"/>
+        ) VALUES (
+        #{articleId,jdbcType=VARCHAR},
+        #{title,jdbcType=VARCHAR},
+        #{label,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{updateTime,jdbcType=BIGINT},
+        #{author,jdbcType=VARCHAR},
+        #{preview,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getArticle" resultMap="articleResultMap" parameterType="java.lang.String">
+        select <include refid="article_columns"/> from blog.article where article_id=#{articleId}
+    </select>
+
+</mapper>

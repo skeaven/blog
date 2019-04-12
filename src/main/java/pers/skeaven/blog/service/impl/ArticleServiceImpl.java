@@ -3,6 +3,7 @@ package pers.skeaven.blog.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.skeaven.blog.bean.dto.ArticleRequest;
@@ -17,10 +18,10 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class ArticleServiceImpl implements ArticleService {
-    private static final String MARKDOWN_DIR = "E:\\workspace\\idea\\blog\\src\\main\\resources\\static\\markdown";
+    private static final String MARKDOWN_DIR = "F:\\workspace\\idea\\blog\\src\\main\\resources\\static\\markdown";
 
-//    @Autowired
-//    ArticleDao articleDao;
+    @Autowired
+    ArticleDao articleDao;
 
     @Override
     public boolean saveArticle(ArticleRequest articleRequest) {
@@ -32,18 +33,24 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleId(articleId);
         article.setUpdateTime(System.currentTimeMillis());
         article.setCreateTime(System.currentTimeMillis());
-        article.setTitle(articleRequest.getTitle());
+        article.setTitle(articleRequest.getTitle()+"");
         article.setLabel(articleRequest.getLabel());
         article.setPreview(StringEscapeUtils.unescapeHtml4(articleRequest.getHtml()).substring(0, 100));
 
         try {
-//            articleDao.saveArticle(article);
+            articleDao.insertArticle(article);
             FileUtils.writeStringToFile(file, content, "UTF-8");
+            log.info("文件保存成功,保存路径:{}", file.getPath());
             return true;
         } catch (IOException e) {
             log.error("文件写入失败!", e);
             //TODO 进行文件清理和事务回退
             return false;
         }
+    }
+
+    @Override
+    public Article getArticle(String articleId) {
+        return articleDao.getArticle(articleId);
     }
 }

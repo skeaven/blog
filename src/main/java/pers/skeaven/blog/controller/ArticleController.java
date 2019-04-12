@@ -34,6 +34,7 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
     public Object getArticle(@PathVariable String articleId) {
-        return articleId;
+        return articleService.getArticle(articleId);
     }
+
 }
