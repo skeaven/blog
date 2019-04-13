@@ -1,3 +1,5 @@
+create database blog;
+use blog;
 create table article
 (
 	article_id varchar(32) not null,

@@ -42,4 +42,8 @@
         select <include refid="article_columns"/> from blog.article where article_id=#{articleId}
     </select>
 
+    <select id="getArticles" resultMap="articleResultMap">
+        select <include refid="article_columns"/> from blog.article;
+    </select>
+
 </mapper>

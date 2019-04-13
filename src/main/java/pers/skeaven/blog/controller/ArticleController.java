@@ -37,4 +37,15 @@ public class ArticleController {
         return articleService.getArticle(articleId);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/articles", method = RequestMethod.GET)
+    public Object getArticles() {
+        return articleService.getArticles();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/article/details/{articleId}", method = RequestMethod.GET)
+    public Object getArticleDetails(@PathVariable String articleId) {
+        return articleService.getArticleDetails(articleId);
+    }
 }
